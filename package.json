@@ -1,6 +1,8 @@
 {
   "name": "vue-datepicker-mobile",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "author": "wutianmei",
+  "description": "a date picker component form vue mobile H5",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -42,5 +44,22 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "main": "babel.config.js",
+  "keywords": [
+    "vue",
+    "mobile",
+    "h5",
+    "date-picker",
+    "datepicker",
+    "date-range",
+    "daterange",
+    "month-range",
+    "monthrange",
+    "year-range",
+    "yearrange",
+    "calendar",
+    "calendarpicker"
+  ],
+  "license": "ISC"
 }
