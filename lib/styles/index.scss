@@ -1,0 +1,33 @@
+@import "./varibles.scss";
+body,
+html {
+  font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial;
+}
+.vdm-flex {
+  display: flex;
+  > div {
+    flex: 1;
+  }
+}
+.vdm-in-range {
+  background-color: #f2f6fc;
+  &.vdm-range-start,
+  &.vdm-range-end {
+    width: 50%;
+    span {
+      text-align: center;
+    }
+  }
+  &.vdm-range-start {
+    float: right;
+    text-align: left;
+    border-top-left-radius: $day-height/2;
+    border-bottom-left-radius: $day-height/2;
+  }
+  &.vdm-range-end {
+    text-align: right;
+    float: left;
+    border-top-right-radius: $day-height/2;
+    border-bottom-right-radius: $day-height/2;
+  }
+}
