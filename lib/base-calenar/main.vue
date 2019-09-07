@@ -17,7 +17,7 @@
           <div v-for="(rd,key) in row" :key="key" class="day"
             :class="{gray:rd.type,cur:isToday(rd),selected:isSelected(rd)}">
             <div
-              :class="{'vdm-in-range':isInRange(rd),'vdm-range-start':isRangeStart(rd),'vdm-range-end':isRangeEnd(rd)}">
+              :class="{'vdm-in-range':isInRange(rd),'vdm-range-start':isRangeStartEnd(rd,0),'vdm-range-end':isRangeStartEnd(rd,1)}">
               <span @click="selDate(rd)">{{rd.day}}</span>
             </div>
           </div>
@@ -84,20 +84,16 @@ export default {
       }
       return false
     },
-    isRangeStart(dayInfo) {
+    isRangeStartEnd(dayInfo, index) {
       if (this.rangeSelectedAll) {
+        let sd = this.selectedDateStr
+        if (moment(sd[0]).isSame(sd[1])) return false
         let { mDate } = this.buildCurYMD(dayInfo)
-        return mDate.isSame(this.selectedDateStr[0])
+        return mDate.isSame(sd[index])
       }
       return false
     },
-    isRangeEnd(dayInfo) {
-      if (this.rangeSelectedAll) {
-        let { mDate } = this.buildCurYMD(dayInfo)
-        return mDate.isSame(this.selectedDateStr[1])
-      }
-      return false
-    },
+
     setMonthInfo() {
       this.monthInfo = getFullMonthInfo(this.curdate)
     },
