@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <BaseCalendar type="range"></BaseCalendar>
+    <Calendar></Calendar>
   </div>
 </template>
 

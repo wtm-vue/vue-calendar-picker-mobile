@@ -40,7 +40,8 @@ export default {
     type: {
       type: String,
       default: PICKER_TYPE.DATE
-    }
+    },
+    success: Function
   },
 
   data() {
@@ -120,6 +121,7 @@ export default {
       }
       this.curdate = info.date
       this.setMonthInfo()
+      this.success && this.success(this.selectedDates)
     }
   },
 
@@ -143,6 +145,7 @@ export default {
   color: #606266;
   font-size: 17px;
   padding: 5px 10px;
+  background-color: #fff;
   .mr {
     margin-right: 20px;
   }
