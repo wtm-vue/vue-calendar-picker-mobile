@@ -7,7 +7,7 @@
       }"></div>
       <BaseCalendar class="cal-cont" :class="{
         'cal-fade-in':calUp,'cal-fade-out':calDown
-      }" :success="confirmSel"></BaseCalendar>
+      }" :success="confirmSel" ref="_calBase"></BaseCalendar>
     </div>
   </div>
 </template>
@@ -26,22 +26,26 @@ export default {
       calDown: false
     }
   },
-
+  mounted() {},
   methods: {
     confirmSel() {},
     show() {
       this.calShow = true
       this.$nextTick(function() {
+        this.$refs._calBase.$el.addEventListener("animationend", this.aend)
         this.calUp = true
       })
     },
-    hide() {
-      this.calDown = true
-      setTimeout(() => {
+    aend() {
+      if (this.calDown) {
+        this.$refs._calBase.$el.removeEventListener("animationend", this.aend)
         this.calUp = false
         this.calDown = false
         this.calShow = false
-      }, 300)
+      }
+    },
+    hide() {
+      this.calDown = true
     }
   },
 
