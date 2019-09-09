@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div @click.prevent="show">点我{{calShow}}</div>
+    <VDMInput :value="dispalyValue" @input="value=>userInput=value" @focus="handleFocus" />
     <div v-if="calShow">
       <div class="mask" @click="hide" :class="{
         'mask-fade-in':calUp,'mask-fade-out':calDown
@@ -13,25 +13,49 @@
 </template>
 
 <script type="text/babel">
+import VDMInput from "../input/main.vue"
 import BaseCalendar from "../base-calendar"
+import { formatDate2Str } from "../utils/date"
 export default {
   name: "Calendar",
 
-  props: {},
-
   data() {
     return {
+      userInput: [],
       calShow: false,
       calUp: false,
       calDown: false
     }
   },
+  props: ["value"],
+  components: {
+    BaseCalendar,
+    VDMInput
+  },
+  watch: {
+    value: {
+      handler: function(val) {
+        this.userInput = val
+      },
+      immediate: true
+    }
+  },
   mounted() {},
   methods: {
-    confirmSel() {},
+    handleFocus() {
+      this.show()
+      this.$emit("focus", this)
+    },
+    confirmSel(vals) {
+      let cv = vals.map(item => item.date)
+      this.$emit("input", cv)
+      this.userInput = cv
+      this.hide()
+    },
     show() {
       this.calShow = true
       this.$nextTick(function() {
+        document.body.style.overflow = "hidden"
         this.$refs._calBase.$el.addEventListener("animationend", this.aend)
         this.calUp = true
       })
@@ -39,6 +63,7 @@ export default {
     aend() {
       if (this.calDown) {
         this.$refs._calBase.$el.removeEventListener("animationend", this.aend)
+        document.body.style.overflow = null
         this.calUp = false
         this.calDown = false
         this.calShow = false
@@ -49,7 +74,11 @@ export default {
     }
   },
 
-  computed: {}
+  computed: {
+    dispalyValue() {
+      return formatDate2Str(this.userInput)
+    }
+  }
 }
 </script>
 

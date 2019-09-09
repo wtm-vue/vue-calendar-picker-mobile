@@ -115,13 +115,14 @@ export default {
           } else {
             this.selectedDates.push(info)
           }
+          this.success && this.success(this.selectedDates)
         }
       } else {
         this.selectedDates = [info]
+        this.success && this.success(this.selectedDates)
       }
       this.curdate = info.date
       this.setMonthInfo()
-      this.success && this.success(this.selectedDates)
     }
   },
 
