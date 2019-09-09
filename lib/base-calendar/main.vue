@@ -105,7 +105,7 @@ export default {
     selDate(dayInfo) {
       let info = this.buildCurYMD(dayInfo)
       let sds = this.selectedDates
-      if (this.type === PICKER_TYPE.RANGE) {
+      if (this.type === PICKER_TYPE.DATE_RANGE) {
         if (sds.length >= 2) {
           this.selectedDates = [info]
         } else {
@@ -115,7 +115,7 @@ export default {
           } else {
             this.selectedDates.push(info)
           }
-          this.success && this.success(this.selectedDates)
+          this.success && this.selectedDates.length > 1 && this.success(this.selectedDates)
         }
       } else {
         this.selectedDates = [info]
@@ -131,7 +131,7 @@ export default {
       return moment(this.curdate).format(`${DATE_FORMAT.YYYY}年${DATE_FORMAT.MM}月`)
     },
     rangeSelectedAll() {
-      return this.type === PICKER_TYPE.RANGE && this.selectedDates.length === 2
+      return this.type === PICKER_TYPE.DATE_RANGE && this.selectedDates.length === 2
     },
     selectedDateStr() {
       return this.selectedDates.map(item => item.datestr)

@@ -1,6 +1,6 @@
 <template>
   <div class="base-input">
-    <input type="text" v-bind="$attrs" v-on="inputListeners">
+    <input type="text" v-bind="$attrs" readonly v-on="inputListeners">
   </div>
 </template>
 
