@@ -64,5 +64,16 @@
     "calendar",
     "calendarpicker"
   ],
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wtm-vue/vue-calendar-picker-mobile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wtm-vue/vue-calendar-picker-mobile/issues"
+  },
+  "homepage": "https://github.com/wtm-vue/vue-calendar-picker-mobile#readme"
 }

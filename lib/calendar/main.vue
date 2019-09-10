@@ -24,11 +24,7 @@ export default {
   mounted() {},
   methods: {},
 
-  computed: {
-    dispalyValue() {
-      return formatDate2Str(this.userInput)
-    }
-  }
+  computed: {}
 }
 </script>
 
