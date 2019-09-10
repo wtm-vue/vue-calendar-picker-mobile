@@ -1,9 +1,9 @@
 {
-  "name": "vue-datepicker-mobile",
+  "name": "vue-calendar-picker-mobile",
   "version": "1.0.0",
   "author": "wutianmei",
   "description": "a date picker component form vue mobile H5",
-  "private": true,
+  "main": "./lib/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -49,7 +49,6 @@
     "> 1%",
     "last 2 versions"
   ],
-  "main": "babel.config.js",
   "keywords": [
     "vue",
     "mobile",
