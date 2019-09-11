@@ -5,9 +5,6 @@
 </template>
 
 <script type="text/babel">
-import { WEEKS } from "../utils/const"
-import { getFullMonthInfo } from "../utils/date"
-
 export default {
   name: "Input",
   inheritAttrs: false,

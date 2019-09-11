@@ -1,8 +1,8 @@
 import Vue from "vue"
 import App from "./App.vue"
-import { BaseCalendar, Calendar, CalendarRange } from "../lib/index.js"
+import { CalendarBase, Calendar, CalendarRange } from "../packages/index.js"
 Vue.config.productionTip = false
-Vue.use(BaseCalendar)
+Vue.use(CalendarBase)
 Vue.use(Calendar)
 Vue.use(CalendarRange)
 new Vue({

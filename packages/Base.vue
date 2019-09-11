@@ -5,16 +5,15 @@
       <div class="mask" @click="hide" :class="{
         'mask-fade-in':calUp,'mask-fade-out':calDown
       }"></div>
-      <BaseCalendar v-bind="$attrs" class="cal-cont" :class="{
+      <CalendarBase v-bind="$attrs" class="cal-cont" :class="{
         'cal-fade-in':calUp,'cal-fade-out':calDown
-      }" :success="confirmSel" ref="_calBase"></BaseCalendar>
+      }" :success="confirmSel" ref="_calBase"></CalendarBase>
     </div>
   </div>
 </template>
 
 <script type="text/babel">
-import { formatDate2Str } from "./utils/date"
-import BaseCalendar from "./base-calendar/index"
+import CalendarBase from "./calendar-base/index"
 export default {
   name: "CalBase",
 
@@ -27,7 +26,7 @@ export default {
   },
   mounted() {},
   components: {
-    BaseCalendar
+    CalendarBase
   },
   methods: {
     confirmSel(vals) {

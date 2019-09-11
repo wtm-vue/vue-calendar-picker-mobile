@@ -34,7 +34,7 @@ import { getFullMonthInfo } from "../utils/date"
 import { DATE_FORMAT, PICKER_TYPE } from "../utils/const"
 import moment from "moment"
 export default {
-  name: "BaseCalendar",
+  name: "CalendarBase",
 
   props: {
     type: {
