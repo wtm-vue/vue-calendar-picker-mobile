@@ -14,6 +14,7 @@
 
 <script type="text/babel">
 import { formatDate2Str } from "./utils/date"
+import BaseCalendar from "./base-calendar/index"
 export default {
   name: "CalBase",
 
@@ -25,6 +26,9 @@ export default {
     }
   },
   mounted() {},
+  components: {
+    BaseCalendar
+  },
   methods: {
     confirmSel(vals) {
       this.$emit("confirm", vals.map(item => item.date))
