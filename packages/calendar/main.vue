@@ -1,6 +1,6 @@
 <template>
   <CalBase @confirm="confirmHandler" ref="_calBase">
-    <VDMInput :value="getDispalyValue()" v-bind="$attrs" @click="handleClick" />
+    <VDMInput :value="getDispalyValue()" v-bind="$attrs" :placeholder="placeholder" @click="handleClick" />
   </CalBase>
 </template>
 
@@ -19,7 +19,11 @@ export default {
     VDMInput
   },
   props: {
-    value: [Object, Array, Date]
+    value: [Object, Array, Date],
+    placeholder: {
+      type: String,
+      default: "选择日期"
+    }
   },
   mounted() {},
   methods: {},
