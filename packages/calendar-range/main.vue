@@ -47,6 +47,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/varibles.scss";
+.separator,
+.base-input {
+  vertical-align: middle;
+}
 </style>
 
 

@@ -1,6 +1,6 @@
 <template>
   <div class="base-input">
-    <input type="text" v-bind="$attrs" readonly v-on="inputListeners">
+    <input type="text" v-bind="$attrs" readonly v-on.prevent="inputListeners">
   </div>
 </template>
 
@@ -39,5 +39,13 @@ input {
   font-size: inherit;
   width: 100%;
   text-align: center;
+  border: 0;
+  outline: 0;
+  border-radius: 0;
+  height: 100%;
+  line-height: normal;
+  &::placeholder {
+    color: $border-color;
+  }
 }
 </style>
