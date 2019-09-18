@@ -1,12 +1,17 @@
 import CalBase from "../Base.vue"
 import { formatDate2Str } from "../utils/date"
 
-import { PICKER_TYPE } from "./const"
+import { PICKER_TYPE, DATE_FORMAT } from "./const"
 export const BASE = {
   data() {
     return {}
   },
-  props: {},
+  props: {
+    format: {
+      type: String,
+      default: DATE_FORMAT.YYYY_MM_DD
+    }
+  },
   components: { CalBase },
   watch: {
     value: {
@@ -27,7 +32,7 @@ export const BASE = {
       this.$emit("click", this)
     },
     getDispalyValue(index = 0) {
-      return formatDate2Str(this.userInput[index])
+      return formatDate2Str(this.userInput[index], this.format)
     }
   }
 }

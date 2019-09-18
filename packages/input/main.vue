@@ -30,7 +30,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../styles/varibles.scss";
+.base-input {
+  display: inline-block;
+  width: 45%;
+}
 input {
   outline: 0;
+  font-size: inherit;
+  width: 100%;
+  text-align: center;
 }
 </style>

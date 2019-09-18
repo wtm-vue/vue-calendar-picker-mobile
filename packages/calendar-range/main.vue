@@ -2,7 +2,7 @@
 <template>
   <CalBase @confirm="confirmHandler" ref="_calBase" :type="type">
     <VDMInput v-bind="$attrs" :value="getDispalyValue(0)" :placeholder="startPlaceholder" @click="handleClick" />
-    ~
+    <span class="separator">{{rangeSeparator}}</span>
     <VDMInput v-bind="$attrs" :value="getDispalyValue(1)" :placeholder="endPlaceholder" @click="handleClick" />
   </CalBase>
 </template>
@@ -25,6 +25,11 @@ export default {
   },
   props: {
     value: Array,
+
+    rangeSeparator: {
+      type: String,
+      default: "至"
+    },
     startPlaceholder: {
       type: String,
       default: "开始日期"

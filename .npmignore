@@ -8,6 +8,7 @@ vue.config.js
 babel.config.js
 *.map
 *.html
+*-lock.json
 
 # local env files
 .env.local

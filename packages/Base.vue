@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cal-warp">
     <slot></slot>
     <div v-if="calShow">
       <div class="mask" @click="hide" :class="{
@@ -133,5 +133,11 @@ export default {
   to {
     transform: translateY(100%);
   }
+}
+.cal-warp {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid $border-color;
+  justify-content: center;
 }
 </style>
