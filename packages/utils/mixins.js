@@ -26,6 +26,7 @@ export const BASE = {
       this.$emit("input", this.type === PICKER_TYPE.DATE_RANGE ? cv : cv[0])
       this.userInput = cv
       this.$refs._calBase.hide()
+      this.$emit("change", cv)
     },
     handleClick() {
       this.$refs._calBase.show()
