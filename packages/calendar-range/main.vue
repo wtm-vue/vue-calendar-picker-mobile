@@ -1,6 +1,6 @@
 
 <template>
-  <CalBase @confirm="confirmHandler" ref="_calBase" :type="type">
+  <CalBase @confirm="confirmHandler" ref="_calBase" :type="type" v-bind="$attrs" :userInput="userInput">
     <VDMInput v-bind="$attrs" :value="getDispalyValue(0)" :placeholder="startPlaceholder" @click="handleClick" />
     <span class="separator">{{rangeSeparator}}</span>
     <VDMInput v-bind="$attrs" :value="getDispalyValue(1)" :placeholder="endPlaceholder" @click="handleClick" />
@@ -15,17 +15,17 @@ export default {
   name: "CalendarRange",
   mixins: [BASE],
   data() {
-    return {
-      type: PICKER_TYPE.DATE_RANGE,
-      userInput: []
-    }
+    return {}
   },
   components: {
     VDMInput
   },
   props: {
     value: Array,
-
+    type: {
+      type: String,
+      default: PICKER_TYPE.DATE_RANGE
+    },
     rangeSeparator: {
       type: String,
       default: "至"

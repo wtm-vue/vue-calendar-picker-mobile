@@ -29,7 +29,7 @@
 
 <script type="text/babel">
 import { WEEKS } from "../utils/const"
-import { getFullMonthInfo } from "../utils/date"
+import { getFullMonthInfo, formatDate2Str } from "../utils/date"
 
 import { DATE_FORMAT, PICKER_TYPE } from "../utils/const"
 import moment from "moment"
@@ -41,6 +41,7 @@ export default {
       type: String,
       default: PICKER_TYPE.DATE
     },
+    userInput: Array,
     success: Function
   },
 
@@ -52,7 +53,25 @@ export default {
       selectedDates: []
     }
   },
-  watch: {},
+  watch: {
+    userInput: {
+      handler: function(val) {
+        let arr = []
+        if (!Array.isArray(val)) {
+          val = [val]
+        }
+        val.map(item => {
+          arr.push({
+            datestr: formatDate2Str(item, DATE_FORMAT.YYYY_MM_DD),
+            date: item,
+            mDate: moment(item)
+          })
+        })
+        this.selectedDates = arr
+      },
+      immediate: true
+    }
+  },
   mounted() {
     this.setMonthInfo()
   },
@@ -77,7 +96,6 @@ export default {
     isInRange(dayInfo) {
       if (this.rangeSelectedAll) {
         let { mDate, datestr } = this.buildCurYMD(dayInfo)
-
         return (
           this.selectedDateStr.indexOf(datestr) > -1 ||
           mDate.isBetween.apply(mDate, this.selectedDateStr)
@@ -135,6 +153,9 @@ export default {
     },
     selectedDateStr() {
       return this.selectedDates.map(item => item.datestr)
+    },
+    dateRange() {
+      return [PICKER_TYPE.DATE, PICKER_TYPE.DATE_RANGE].indexOf(this.type) > -1
     }
   }
 }

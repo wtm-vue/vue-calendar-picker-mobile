@@ -4,7 +4,7 @@ import { formatDate2Str } from "../utils/date"
 import { PICKER_TYPE, DATE_FORMAT } from "./const"
 export const BASE = {
   data() {
-    return {}
+    return { userInput: [] }
   },
   props: {
     format: {

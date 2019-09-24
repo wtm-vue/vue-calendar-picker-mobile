@@ -32,7 +32,7 @@ export default {
 @import "../styles/varibles.scss";
 .base-input {
   display: inline-block;
-  width: 45%;
+  width: 100%;
 }
 input {
   outline: 0;

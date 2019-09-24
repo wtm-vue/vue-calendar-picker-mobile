@@ -1,18 +1,20 @@
 {
   "name": "vue-calendar-picker-mobile",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "author": "tianmei.wu",
   "description": "a date picker component form vue mobile H5",
   "main": "./lib/index.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lib": "vue-cli-service build --target lib --name index --dest lib packages/index.js",
+    "lib": "vue-cli-service build  --mode production --target lib --name index --dest lib packages/index.js ",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "D": "^1.0.0",
-    "core-js": "^2.6.5"
+    "core-js": "^2.6.5",
+    "moment": "2.24.0",
+    "vue": "^2.6.10"
   },
   "peerDependencies": {
     "moment": "^2.24.0",

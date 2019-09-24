@@ -1,5 +1,5 @@
 <template>
-  <CalBase @confirm="confirmHandler" ref="_calBase">
+  <CalBase @confirm="confirmHandler" ref="_calBase" :userInput="userInput">
     <VDMInput :value="getDispalyValue()" v-bind="$attrs" :placeholder="placeholder" @click="handleClick" />
   </CalBase>
 </template>
@@ -11,9 +11,7 @@ export default {
   name: "Calendar",
   mixins: [BASE],
   data() {
-    return {
-      userInput: []
-    }
+    return {}
   },
   components: {
     VDMInput
