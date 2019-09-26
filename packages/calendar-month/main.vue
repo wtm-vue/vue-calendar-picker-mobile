@@ -1,0 +1,178 @@
+<template>
+  <div class="base-cal">
+    <div class="vdm-flex cal-header">
+      <div><i class="iconfont icon-double-arrow-left- mr" @click="switchCal('year',-1)"></i></div>
+      <div>{{curStr}}</div>
+      <div>
+        <i class="iconfont icon-double-arrow-right-" @click="switchCal('year',1)"></i> </div>
+    </div>
+    <div class="cal-cont-cont">
+      <div class="day-cont">
+        <div class="vdm-flex">
+          <div v-for="(m,index) in MONTHS" :key="index" class="month"
+            :class="{cur:isThisMonth(index),selected:isSelected(index)}">
+            <div
+              :class="{'vdm-in-range':isInRange(index),'vdm-range-start':isRangeStartEnd(index,0),'vdm-range-end':isRangeStartEnd(index,1)}">
+              <span @click="setMonth(index)">{{m}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script type="text/babel">
+import { formatDate2Str } from "../utils/date"
+import { DATE_FORMAT, PICKER_TYPE, MONTHS } from "../utils/const"
+import moment from "moment"
+
+export default {
+  name: "CalendarMonth",
+  props: {
+    userInput: Array,
+    success: Function,
+    type: {
+      type: String,
+      default: PICKER_TYPE.MONTH
+    }
+  },
+
+  data() {
+    return {
+      MONTHS,
+      selectedDates: [],
+      curdate: new Date()
+    }
+  },
+  watch: {
+    userInput: {
+      handler: function(val) {
+        if (!val) return
+        let arr = []
+        if (!Array.isArray(val)) {
+          val = [val]
+        }
+        val.map(item => {
+          arr.push({
+            datestr: formatDate2Str(item, DATE_FORMAT.YYYY_MM),
+            date: item,
+            mDate: moment(item)
+          })
+        })
+        this.selectedDates = arr
+      },
+      immediate: true
+    }
+  },
+  mounted() {},
+  methods: {
+    buildCurYM(month) {
+      let cm = moment(this.curdate, DATE_FORMAT.YYYY_MM)
+      cm.month(month)
+      let datestr = cm.format(DATE_FORMAT.YYYY_MM)
+      return { datestr, date: cm._d, mDate: cm }
+    },
+    isThisMonth(month) {
+      let tstr = moment().format(DATE_FORMAT.YYYY_MM)
+      return tstr === this.buildCurYM(month).datestr
+    },
+    isSelected(month) {
+      return this.selectedDates.some(item => item.datestr === this.buildCurYM(month).datestr)
+    },
+
+    isInRange(month) {
+      if (this.rangeSelectedAll) {
+        let { mDate, datestr } = this.buildCurYM(month)
+        return (
+          this.selectedDateStr.indexOf(datestr) > -1 ||
+          mDate.isBetween.apply(mDate, this.selectedDateStr)
+        )
+      }
+      return false
+    },
+    isRangeStartEnd(month, index) {
+      if (this.rangeSelectedAll) {
+        let sd = this.selectedDateStr
+        if (moment(sd[0]).isSame(sd[1])) return false
+        let { datestr } = this.buildCurYM(month)
+        return datestr === sd[index]
+      }
+      return false
+    },
+    switchCal(type, num) {
+      this.curdate = moment(this.curdate).add(num, type)
+    },
+    setMonth(month) {
+      let info = this.buildCurYM(month)
+      let sds = this.selectedDates
+      if (this.type === PICKER_TYPE.MONTH_RANGE) {
+        if (sds.length >= 2) {
+          this.selectedDates = [info]
+        } else {
+          let { mDate } = info
+          if (sds.length === 1 && mDate.isBefore(sds[0].datestr)) {
+            this.selectedDates.unshift(info)
+          } else {
+            this.selectedDates.push(info)
+          }
+          this.success && this.selectedDates.length > 1 && this.success(this.selectedDates)
+        }
+      } else {
+        this.selectedDates = [info]
+        this.success && this.success(this.selectedDates)
+      }
+      this.curdate = info.date
+    }
+  },
+
+  computed: {
+    selectedDateStr() {
+      return this.selectedDates.map(item => item.datestr)
+    },
+    curStr() {
+      return moment(this.curdate).format(`${DATE_FORMAT.YYYY}年`)
+    },
+    rangeSelectedAll() {
+      return this.type === PICKER_TYPE.MONTH_RANGE && this.selectedDates.length === 2
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+@import "../styles/varibles.scss";
+.base-cal {
+  $width: 50px;
+  .cal-header {
+    border-bottom: 1px solid $border-color;
+  }
+  .vdm-flex {
+    flex-wrap: wrap;
+  }
+  .month {
+    width: 25%;
+    flex: 0 0 auto;
+    padding: 10px 0;
+    text-align: center;
+    span {
+      line-height: 30px;
+      width: $width;
+    }
+    &.selected {
+      span {
+        border-radius: 15px;
+      }
+    }
+  }
+  .vdm-range-start {
+    span {
+      margin-left: -$width/2;
+    }
+  }
+  .vdm-range-end {
+    span {
+      margin-right: -$width/2;
+    }
+  }
+}
+</style>

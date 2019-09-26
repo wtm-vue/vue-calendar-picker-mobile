@@ -28,32 +28,34 @@
 </template>
 
 <script type="text/babel">
+import { WEEKS } from "../utils/const"
 import { getFullMonthInfo, formatDate2Str } from "../utils/date"
 
-import { WEEKS, DATE_FORMAT, PICKER_TYPE } from "../utils/const"
+import { DATE_FORMAT, PICKER_TYPE } from "../utils/const"
 import moment from "moment"
 export default {
-  name: "CalendarBase",
+  name: "CalendarYear",
+
   props: {
-    userInput: Array,
-    success: Function,
     type: {
       type: String,
       default: PICKER_TYPE.DATE
-    }
+    },
+    userInput: Array,
+    success: Function
   },
+
   data() {
     return {
       WEEKS,
-      selectedDates: [],
       monthInfo: [],
-      curdate: new Date()
+      curdate: new Date(),
+      selectedDates: []
     }
   },
   watch: {
     userInput: {
       handler: function(val) {
-        if (!val) return
         let arr = []
         if (!Array.isArray(val)) {
           val = [val]
@@ -149,18 +151,49 @@ export default {
     rangeSelectedAll() {
       return this.type === PICKER_TYPE.DATE_RANGE && this.selectedDates.length === 2
     },
-    dateRange() {
-      return [PICKER_TYPE.DATE, PICKER_TYPE.DATE_RANGE].indexOf(this.type) > -1
-    },
     selectedDateStr() {
       return this.selectedDates.map(item => item.datestr)
+    },
+    dateRange() {
+      return [PICKER_TYPE.DATE, PICKER_TYPE.DATE_RANGE].indexOf(this.type) > -1
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 @import "../styles/varibles.scss";
+@import "../styles/iconfont/iconfont.css";
 .base-cal {
+  color: #606266;
+  font-size: 17px;
+  padding: 5px 10px;
+  background-color: #fff;
+  .mr {
+    margin-right: 20px;
+  }
+  .iconfont {
+    &:hover {
+      color: $primary-color;
+      cursor: pointer;
+    }
+  }
+  .cal-header {
+    height: 40px;
+    line-height: 40px;
+    div {
+      font-weight: 500;
+      &:first-child,
+      &:last-child {
+        flex: 0 0 100px;
+      }
+      &:nth-child(2) {
+        text-align: center;
+      }
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
   .week-cont,
   .day-cont {
     text-align: center;
@@ -170,12 +203,33 @@ export default {
     padding: 5px 0;
   }
   .day {
+    font-size: 15px;
+    user-select: none;
+    padding: 5px 0;
+    outline: none;
     span {
       cursor: pointer;
       display: inline-block;
       width: $day-height;
       height: $day-height;
       line-height: $day-height;
+    }
+    &:active {
+      color: $primary-color;
+    }
+    &.cur {
+      color: $primary-color;
+      font-weight: 700;
+    }
+    &.gray {
+      color: #c0c4cc;
+    }
+    &.selected {
+      color: #fff;
+      span {
+        border-radius: 50%;
+        background-color: $primary-color;
+      }
     }
   }
 }

@@ -1,8 +1,10 @@
 @import "./varibles.scss";
+@import "./iconfont/iconfont.css";
 body,
 html {
   font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial;
 }
+
 .vdm-flex {
   display: flex;
   > div {
@@ -29,5 +31,67 @@ html {
     float: left;
     border-top-right-radius: $day-height/2;
     border-bottom-right-radius: $day-height/2;
+  }
+}
+
+.base-cal {
+  user-select: none;
+  color: #606266;
+  font-size: 17px;
+  padding: 5px 10px;
+  background-color: #fff;
+  .mr {
+    margin-right: 20px;
+  }
+  .iconfont {
+    &:hover {
+      color: $primary-color;
+      cursor: pointer;
+    }
+  }
+  .cal-header {
+    height: 40px;
+    line-height: 40px;
+    div {
+      font-weight: 500;
+      &:first-child,
+      &:last-child {
+        flex: 0 0 100px;
+      }
+      &:nth-child(2) {
+        text-align: center;
+      }
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+}
+.day,
+.month {
+  font-size: 15px;
+  padding: 5px 0;
+  outline: none;
+  box-sizing: border-box;
+  &:active {
+    color: $primary-color;
+  }
+  &.cur {
+    color: $primary-color;
+    font-weight: 700;
+  }
+  span {
+    box-sizing: border-box;
+    display: inline-block;
+  }
+  &.selected {
+    color: #fff;
+    span {
+      border-radius: 50%;
+      background-color: $primary-color;
+    }
+  }
+  &.gray {
+    color: #c0c4cc;
   }
 }
