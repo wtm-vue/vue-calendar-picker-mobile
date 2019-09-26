@@ -6,6 +6,7 @@
     <CalendarRange v-model="input2" start-placeholder="start" end-placeholder="end"></CalendarRange>
     {{input2}}
     <CalendarMonth></CalendarMonth>
+    <CalendarYear></CalendarYear>
   </div>
 </template>
 

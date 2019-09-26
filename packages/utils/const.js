@@ -11,5 +11,7 @@ export const PICKER_TYPE = {
   DATE: "date",
   DATE_RANGE: "date-range",
   MONTH: "month",
-  MONTH_RANGE: "month-range"
+  MONTH_RANGE: "month-range",
+  YEAR: "year",
+  YEAR_RANGE: "year-range"
 }

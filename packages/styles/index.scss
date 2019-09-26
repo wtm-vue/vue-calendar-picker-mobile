@@ -68,7 +68,7 @@ html {
   }
 }
 .day,
-.month {
+.ym {
   font-size: 15px;
   padding: 5px 0;
   outline: none;
@@ -93,5 +93,39 @@ html {
   }
   &.gray {
     color: #c0c4cc;
+  }
+}
+.ymr-cont {
+  $width: 50px;
+  .cal-header {
+    border-bottom: 1px solid $border-color;
+  }
+  .vdm-flex {
+    flex-wrap: wrap;
+  }
+  .ym {
+    width: 25%;
+    flex: 0 0 auto;
+    padding: 10px 0;
+    text-align: center;
+    span {
+      line-height: 30px;
+      width: $width;
+    }
+    &.selected {
+      span {
+        border-radius: 15px;
+      }
+    }
+  }
+  .vdm-range-start {
+    span {
+      margin-left: -$width/2;
+    }
+  }
+  .vdm-range-end {
+    span {
+      margin-right: -$width/2;
+    }
   }
 }

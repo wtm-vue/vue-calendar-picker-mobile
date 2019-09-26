@@ -1,5 +1,5 @@
 <template>
-  <div class="base-cal">
+  <div class="base-cal ymr-cont">
     <div class="vdm-flex cal-header">
       <div><i class="iconfont icon-double-arrow-left- mr" @click="switchCal('year',-1)"></i></div>
       <div>{{curStr}}</div>
@@ -9,7 +9,7 @@
     <div class="cal-cont-cont">
       <div class="day-cont">
         <div class="vdm-flex">
-          <div v-for="(m,index) in MONTHS" :key="index" class="month"
+          <div v-for="(m,index) in MONTHS" :key="index" class="ym"
             :class="{cur:isThisMonth(index),selected:isSelected(index)}">
             <div
               :class="{'vdm-in-range':isInRange(index),'vdm-range-start':isRangeStartEnd(index,0),'vdm-range-end':isRangeStartEnd(index,1)}">
@@ -141,38 +141,4 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../styles/varibles.scss";
-.base-cal {
-  $width: 50px;
-  .cal-header {
-    border-bottom: 1px solid $border-color;
-  }
-  .vdm-flex {
-    flex-wrap: wrap;
-  }
-  .month {
-    width: 25%;
-    flex: 0 0 auto;
-    padding: 10px 0;
-    text-align: center;
-    span {
-      line-height: 30px;
-      width: $width;
-    }
-    &.selected {
-      span {
-        border-radius: 15px;
-      }
-    }
-  }
-  .vdm-range-start {
-    span {
-      margin-left: -$width/2;
-    }
-  }
-  .vdm-range-end {
-    span {
-      margin-right: -$width/2;
-    }
-  }
-}
 </style>
