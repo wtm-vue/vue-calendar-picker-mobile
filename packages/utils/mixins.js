@@ -1,17 +1,12 @@
 import CalBase from "../Base.vue"
 import { formatDate2Str } from "../utils/date"
 
-import { PICKER_TYPE, DATE_FORMAT } from "./const"
+import { PICKER_TYPE } from "./const"
 export const BASE = {
   data() {
     return { userInput: [] }
   },
-  props: {
-    format: {
-      type: String,
-      default: DATE_FORMAT.YYYY_MM_DD
-    }
-  },
+  props: {},
   components: { CalBase },
   watch: {
     value: {
@@ -23,7 +18,7 @@ export const BASE = {
   },
   methods: {
     confirmHandler(cv) {
-      this.$emit("input", this.type === PICKER_TYPE.DATE_RANGE ? cv : cv[0])
+      this.$emit("input", [PICKER_TYPE.DATE_RANGE, PICKER_TYPE.MONTH_RANGE, PICKER_TYPE.YEAR_RANGE].indexOf(this.type) > -1 ? cv : cv[0])
       this.userInput = cv
       this.$refs._calBase.hide()
       this.$emit("change", cv)

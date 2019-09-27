@@ -12,11 +12,11 @@ import { BASE } from "../utils/mixins"
 
 import { PICKER_TYPE, DATE_FORMAT } from "../utils/const"
 export default {
-  name: "CalendarRange",
+  name: "CalendarMonthRange",
   mixins: [BASE],
   data() {
     return {
-      type: PICKER_TYPE.DATE_RANGE
+      type: PICKER_TYPE.MONTH_RANGE
     }
   },
   components: {
@@ -26,7 +26,7 @@ export default {
     value: Array,
     format: {
       type: String,
-      default: DATE_FORMAT.YYYY_MM_DD
+      default: DATE_FORMAT.YYYY_MM
     },
     rangeSeparator: {
       type: String,
@@ -34,11 +34,11 @@ export default {
     },
     startPlaceholder: {
       type: String,
-      default: "开始日期"
+      default: "开始月份"
     },
     endPlaceholder: {
       type: String,
-      default: "结束日期"
+      default: "结束月份"
     }
   },
 

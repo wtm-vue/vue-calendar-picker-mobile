@@ -5,28 +5,52 @@
       <div class="mask" @click="hide" :class="{
         'mask-fade-in':calUp,'mask-fade-out':calDown
       }"></div>
-      <CalendarBase v-bind="$attrs" class="cal-cont" :class="{
-        'cal-fade-in':calUp,'cal-fade-out':calDown
-      }" :success="confirmSel" ref="_calBase"></CalendarBase>
+      <CalendarBase :type="type" v-if="[PICKER_TYPE.DATE,PICKER_TYPE.DATE_RANGE].indexOf(type)>-1" v-bind="mattrs">
+      </CalendarBase>
+      <CalendarMonthBase :type="type" v-if="[PICKER_TYPE.MONTH,PICKER_TYPE.MONTH_RANGE].indexOf(type)>-1"
+        v-bind="mattrs"></CalendarMonthBase>
+      <CalendarYearBase :type="type" v-if="[PICKER_TYPE.YEAR,PICKER_TYPE.YEAR_RANGE].indexOf(type)>-1" v-bind="mattrs">
+      </CalendarYearBase>
     </div>
   </div>
 </template>
 
 <script type="text/babel">
 import CalendarBase from "./calendar-base/index"
+import CalendarMonthBase from "./calendar-month-base/index"
+import CalendarYearBase from "./calendar-year-base/index"
+import { PICKER_TYPE } from "./utils/const"
 export default {
   name: "CalBase",
 
   data() {
     return {
+      PICKER_TYPE,
       calShow: false,
       calUp: false,
       calDown: false
     }
   },
+  props: ["type"],
   mounted() {},
   components: {
-    CalendarBase
+    CalendarBase,
+    CalendarMonthBase,
+    CalendarYearBase
+  },
+  computed: {
+    mattrs() {
+      return {
+        ...this.$attrs,
+        class: {
+          "cal-cont": true,
+          "cal-fade-in": this.calUp,
+          "cal-fade-out": this.calDown
+        },
+        success: this.confirmSel,
+        ref: "_calBase"
+      }
+    }
   },
   methods: {
     confirmSel(vals) {
