@@ -6,7 +6,7 @@ export const BASE = {
   data() {
     return { userInput: [] }
   },
-  props: {},
+  props: { value: [Object, Array, Date] },
   components: { CalBase },
   watch: {
     value: {

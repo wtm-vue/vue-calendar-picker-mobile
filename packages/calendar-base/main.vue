@@ -35,11 +35,16 @@ import moment from "moment"
 export default {
   name: "CalendarBase",
   props: {
+    value: [Object, Date],
     userInput: Array,
     success: Function,
     type: {
       type: String,
       default: PICKER_TYPE.DATE
+    },
+    format: {
+      type: String,
+      default: DATE_FORMAT.YYYY_MM_DD
     }
   },
   data() {
@@ -53,14 +58,14 @@ export default {
   watch: {
     userInput: {
       handler: function(val) {
-        if (!val) return
+        if (!val || !val.length) return
         let arr = []
         if (!Array.isArray(val)) {
           val = [val]
         }
         val.map(item => {
           arr.push({
-            datestr: formatDate2Str(item, DATE_FORMAT.YYYY_MM_DD),
+            datestr: formatDate2Str(item, this.format),
             date: item,
             mDate: moment(item)
           })
@@ -85,7 +90,7 @@ export default {
       return { datestr, date: mDate._d, mDate }
     },
     isToday(dayInfo) {
-      let tstr = moment().format(DATE_FORMAT.YYYY_MM_DD)
+      let tstr = moment().format(this.format)
       return tstr === this.buildCurYMD(dayInfo).datestr
     },
     isSelected(dayInfo) {
@@ -137,6 +142,8 @@ export default {
       } else {
         this.selectedDates = [info]
         this.success && this.success(this.selectedDates)
+        let dateObj = this.selectedDates.map(item => item.date)
+        this.$emit("input", dateObj[0])
       }
       this.curdate = info.date
       this.setMonthInfo()

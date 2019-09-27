@@ -18,7 +18,6 @@ export default {
     VDMInput
   },
   props: {
-    value: [Object, Array, Date],
     format: {
       type: String,
       default: DATE_FORMAT.YYYY

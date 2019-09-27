@@ -28,8 +28,13 @@ import { DATE_FORMAT, PICKER_TYPE, MONTHS } from "../utils/const"
 import moment from "moment"
 
 export default {
-  name: "CalendarMonth",
+  name: "CalendarMonthBase",
   props: {
+    value: [Object, Date],
+    format: {
+      type: String,
+      default: DATE_FORMAT.YYYY_MM
+    },
     userInput: Array,
     success: Function,
     type: {
@@ -55,7 +60,7 @@ export default {
         }
         val.map(item => {
           arr.push({
-            datestr: formatDate2Str(item, DATE_FORMAT.YYYY_MM),
+            datestr: formatDate2Str(item, this.format),
             date: item,
             mDate: moment(item)
           })
@@ -69,13 +74,13 @@ export default {
   mounted() {},
   methods: {
     buildCurYM(month) {
-      let cm = moment(this.curdate, DATE_FORMAT.YYYY_MM)
+      let cm = moment(this.curdate, this.format)
       cm.month(month)
-      let datestr = cm.format(DATE_FORMAT.YYYY_MM)
+      let datestr = cm.format(this.format)
       return { datestr, date: cm._d, mDate: cm }
     },
     isThisMonth(month) {
-      let tstr = moment().format(DATE_FORMAT.YYYY_MM)
+      let tstr = moment().format(this.format)
       return tstr === this.buildCurYM(month).datestr
     },
     isSelected(month) {
@@ -122,6 +127,8 @@ export default {
       } else {
         this.selectedDates = [info]
         this.success && this.success(this.selectedDates)
+        let dateObj = this.selectedDates.map(item => item.date)
+        this.$emit("input", dateObj[0])
       }
       this.curdate = info.date
     }

@@ -29,11 +29,16 @@ import moment from "moment"
 export default {
   name: "CalendarYearBase",
   props: {
+    value: [Object, Date],
     userInput: Array,
     success: Function,
     type: {
       type: String,
-      default: PICKER_TYPE.YEAR_RANGE
+      default: PICKER_TYPE.YEAR
+    },
+    format: {
+      type: String,
+      default: DATE_FORMAT.YYYY
     }
   },
 
@@ -54,7 +59,7 @@ export default {
         if (!Array.isArray(val)) {
           val = [val]
         }
-        let range = val.map(item => formatDate2Str(item, DATE_FORMAT.YYYY) - 0)
+        let range = val.map(item => formatDate2Str(item, this.format) - 0)
         this.selectedDates = range
         this.init(new Date(range[0] + ""))
       },
@@ -67,7 +72,7 @@ export default {
       return Array.from(new Array(endYear + 1).keys()).slice(startYear)
     },
     init(date = new Date()) {
-      let cy = moment(date).format(DATE_FORMAT.YYYY)
+      let cy = moment(date).format(this.format)
       let temp = cy.slice(0, 3)
       let sy = temp + 0 - 0
       let ey = temp + 9 - 0
@@ -83,7 +88,7 @@ export default {
       })
     },
     isCurYear(year) {
-      let tstr = moment().format(DATE_FORMAT.YYYY)
+      let tstr = moment().format(this.format)
       return !(tstr - year)
     },
     isSelected(year) {
@@ -127,7 +132,9 @@ export default {
         }
       } else {
         this.selectedDates = [year]
-        this.success && this.success(this.str2Date(this.selectedDates))
+        let dateObj = this.str2Date(this.selectedDates)
+        this.success && this.success(dateObj)
+        this.$emit("input", dateObj[0])
       }
     }
   },
