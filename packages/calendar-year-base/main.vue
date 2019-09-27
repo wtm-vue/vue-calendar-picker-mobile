@@ -47,21 +47,21 @@ export default {
   watch: {
     userInput: {
       handler: function(val) {
-        if (!val) return
-        let arr = []
+        if (!val || !val.length) {
+          this.init()
+          return
+        }
         if (!Array.isArray(val)) {
           val = [val]
         }
-        let range = arr.map(item => formatDate2Str(item, DATE_FORMAT.YYYY) - 0)
+        let range = val.map(item => formatDate2Str(item, DATE_FORMAT.YYYY) - 0)
         this.selectedDates = range
-        this.init(range[0])
+        this.init(new Date(range[0] + ""))
       },
       immediate: true
     }
   },
-  mounted() {
-    this.init()
-  },
+  mounted() {},
   methods: {
     getYearArray(startYear, endYear) {
       return Array.from(new Array(endYear + 1).keys()).slice(startYear)

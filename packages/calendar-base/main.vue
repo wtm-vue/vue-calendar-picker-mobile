@@ -66,6 +66,7 @@ export default {
           })
         })
         this.selectedDates = arr
+        this.curdate = arr[0].date
       },
       immediate: true
     }
