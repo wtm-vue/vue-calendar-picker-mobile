@@ -52,14 +52,15 @@ Vue.use(CalendarYearRange)//年份多选组件
 
 ### 相关属性
 
-| 参数              | 说明                         | 类型                  | 可选值                 | 默认值                     | 适用组件                                                      |
-| ----------------- | ---------------------------- | --------------------- | ---------------------- | -------------------------- | ------------------------------------------------------------- |
-| value / v-model   | 绑定值                       | Array(日期数组), Date | -                      | -                          | 所有                                                          |
-| format            | 日期格式                     | String                | 参考`moment`库日期格式 | YYYY-MM-DD                 | 所有                                                          |
-| placeholder       | 非范围选择时的占位内容       | String                | -                      | 选择日期                   | `calendar`/`calendar-month`/ `calendar-year`                  |
-| start-placeholder | 范围选择时开始日期的占位内容 | String                | -                      | 开始日期/开始月份/开始年份 | `calendar-range`/`calendar-month-range`/`calendar-year-range` |
-| end-placeholder   | 范围选择时结束日期的占位内容 | String                | -                      | 结束日期/结束月份/结束年份 | `calendar-range`/`calendar-month-range`/`calendar-year-range` |
-| range-separator   | 选择范围时的分隔符           | String                | -                      | 至                         | `calendar-range`/`calendar-month-range`/`calendar-year-range` |
+| 参数              | 说明                         | 类型                  | 可选值                 | 默认值                     | 适用组件                                                                                                   |
+| ----------------- | ---------------------------- | --------------------- | ---------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| value / v-model   | 绑定值                       | Array(日期数组), Date | -                      | -                          | 所有                                                                                                       |
+| format            | 日期格式                     | String                | 参考`moment`库日期格式 | YYYY-MM-DD                 | 所有                                                                                                       |
+| placeholder       | 非范围选择时的占位内容       | String                | -                      | 选择日期                   | `calendar`/`calendar-month`/ `calendar-year`                                                               |
+| start-placeholder | 范围选择时开始日期的占位内容 | String                | -                      | 开始日期/开始月份/开始年份 | `calendar-range`/`calendar-month-range`/`calendar-year-range`                                              |
+| end-placeholder   | 范围选择时结束日期的占位内容 | String                | -                      | 结束日期/结束月份/结束年份 | `calendar-range`/`calendar-month-range`/`calendar-year-range`                                              |
+| range-separator   | 选择范围时的分隔符           | String                | -                      | 至                         | `calendar-range`/`calendar-month-range`/`calendar-year-range`                                              |
+| z-index           | css 层级                     | Number                | -                      | 1000                       | `calendar`/`calendar-range`/`calendar-month`/`calendar-month-range`/ `calendar-year`/`calendar-year-range` |
 
 ### 事件
 
