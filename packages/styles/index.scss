@@ -38,7 +38,7 @@ html {
 .base-cal {
   user-select: none;
   color: #606266;
-  font-size: 17px;
+  font-size: 15px;
   padding: 5px 10px;
   background-color: #fff;
   .mr {
@@ -51,8 +51,8 @@ html {
     }
   }
   .cal-header {
-    height: 40px;
-    line-height: 40px;
+    height: 30px;
+    line-height: 30px;
     div {
       font-weight: 500;
       &:first-child,
@@ -70,8 +70,8 @@ html {
 }
 .day,
 .ym {
-  font-size: 15px;
-  padding: 5px 0;
+  font-size: 14px;
+  padding: 0;
   outline: none;
   box-sizing: border-box;
   &:active {

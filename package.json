@@ -1,6 +1,6 @@
 {
   "name": "vue-calendar-picker-mobile",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "author": "tianmei.wu",
   "description": "a date picker component form vue mobile H5",
   "main": "./lib/index.umd.min.js",

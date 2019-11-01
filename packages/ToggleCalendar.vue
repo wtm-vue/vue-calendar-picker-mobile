@@ -54,6 +54,7 @@ export default {
       }
     }
   },
+
   methods: {
     confirmSel(vals) {
       this.$emit("confirm", vals.map(item => item.date))
@@ -63,22 +64,25 @@ export default {
       this.calShow = true
       this.$nextTick(function() {
         document.body.style.overflow = "hidden"
-        this.$refs._calBase.$el.addEventListener("animationend", this.aend)
+        this.$refs._calBase && this.$refs._calBase.$el.addEventListener("animationend", this.aend)
         this.calUp = true
       })
     },
     aend() {
       if (this.calDown) {
-        this.$refs._calBase.$el.removeEventListener("animationend", this.aend)
+        this.$refs._calBase &&
+          this.$refs._calBase.$el.removeEventListener("animationend", this.aend)
         document.body.style.overflow = null
         this.calUp = false
         this.calDown = false
         this.calShow = false
-        const _this = this
       }
     },
     hide() {
       this.calDown = true
+    },
+    close() {
+      document.body.removeChild(this.$el)
     }
   }
 }

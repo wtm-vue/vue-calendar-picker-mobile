@@ -17,6 +17,9 @@ export default {
   mounted() {},
   components: { ToggleCalendar },
   computed: {},
+  beforeDestroy() {
+    this.$refs._toggleCalendar.close()
+  },
   methods: {
     setShow(flag) {
       this.calShow = flag

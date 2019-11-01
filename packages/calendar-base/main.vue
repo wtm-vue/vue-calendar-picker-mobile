@@ -175,7 +175,7 @@ export default {
   }
   .week-cont {
     border-bottom: 1px solid $border-color;
-    padding: 5px 0;
+    padding: 3px 0;
   }
   .day {
     span {
