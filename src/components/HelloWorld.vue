@@ -1,29 +1,28 @@
 <template>
   <div class="hello">
-    <CalendarBase v-model="base" placeholder="单选"></CalendarBase>{{base}}
+    <CalendarBase v-model="base" placeholder="单选"></CalendarBase>{{ base }}
     <br />
     日单选:<Calendar v-model="input" placeholder="单选"></Calendar>
-    {{input}}
+    {{ input }}
     <br />
     日区间:<CalendarRange v-model="input2" start-placeholder="start" end-placeholder="end"></CalendarRange>
-    {{input2}}
+    {{ input2 }}
     <br />
-    <CalendarMonthBase v-model="base2"></CalendarMonthBase>{{base2}}
+    <CalendarMonthBase v-model="base2"></CalendarMonthBase>{{ base2 }}
     <br />
     月单选:<CalendarMonth v-model="input3"></CalendarMonth>
-    {{input3}}
+    {{ input3 }}
     <br />
     月区间:<CalendarMonthRange v-model="input4"></CalendarMonthRange>
-    {{input4}}
-    <br />
-    <CalendarYearBase v-model="base3"></CalendarYearBase>{{base3}}
-    <br />
-    年单选:<CalendarYear v-model="input5"></CalendarYear>
-    {{input5}}
+    {{ input4 }}
     <br />
     年区间:<CalendarYearRange v-model="input6"></CalendarYearRange>
-    {{input6}}
-
+    {{ input6 }}
+    <CalendarYearBase v-model="base3"></CalendarYearBase>{{ base3 }}
+    <br />
+    <br />
+    年单选:<CalendarYear v-model="input5"></CalendarYear>
+    {{ input5 }}
   </div>
 </template>
 
@@ -45,5 +44,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

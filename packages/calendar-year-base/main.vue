@@ -2,17 +2,17 @@
   <div class="base-cal ymr-cont">
     <div class="vdm-flex cal-header">
       <div><i class="iconfont icon-double-arrow-left- mr" @click="switchCal(-1)"></i></div>
-      <div>{{curYearRangeStr}}</div>
+      <div>{{ curYearRangeStr }}</div>
       <div>
-        <i class="iconfont icon-double-arrow-right-" @click="switchCal(1)"></i> </div>
+        <i class="iconfont icon-double-arrow-right-" @click="switchCal(1)"></i>
+      </div>
     </div>
-    <div class="cal-cont-cont">
+    <div class="cal-cont-cont" ref="_dc">
       <div class="day-cont">
         <div class="vdm-flex">
-          <div v-for="year in years" :key="year" class="ym" :class="{cur:isCurYear(year),selected:isSelected(year)}">
-            <div
-              :class="{'vdm-in-range':isInRange(year),'vdm-range-start':isRangeStartEnd(year,0),'vdm-range-end':isRangeStartEnd(year,1)}">
-              <span @click="setYear(year)">{{year}}</span>
+          <div v-for="year in years" :key="year" class="ym" :class="{ cur: isCurYear(year), selected: isSelected(year) }">
+            <div :class="{ 'vdm-in-range': isInRange(year), 'vdm-range-start': isRangeStartEnd(year, 0), 'vdm-range-end': isRangeStartEnd(year, 1) }">
+              <span @click="setYear(year)" :data-cindex="year">{{ year }}</span>
             </div>
           </div>
         </div>
@@ -25,8 +25,9 @@
 import { formatDate2Str } from "../utils/date"
 import { DATE_FORMAT, PICKER_TYPE } from "../utils/const"
 import moment from "moment"
-
+import { EVENT_MIXINS } from "../utils/mixins"
 export default {
+  mixins: [EVENT_MIXINS],
   name: "CalendarYearBase",
   props: {
     value: [Object, Date],
@@ -44,6 +45,7 @@ export default {
 
   data() {
     return {
+      isYear: true,
       years: [],
       yearRange: [],
       selectedDates: []
@@ -116,26 +118,33 @@ export default {
       this.yearRange = range
     },
     setYear(year) {
-      let sds = this.selectedDates
-      if (this.type === PICKER_TYPE.YEAR_RANGE) {
-        if (sds.length >= 2) {
-          this.selectedDates = [year]
-        } else {
-          if (sds.length === 1 && year < sds[0]) {
-            this.selectedDates.unshift(year)
-          } else {
-            this.selectedDates.push(year)
-          }
-          this.success &&
-            this.selectedDates.length > 1 &&
-            this.success(this.str2Date(this.selectedDates))
-        }
-      } else {
-        this.selectedDates = [year]
-        let dateObj = this.str2Date(this.selectedDates)
-        this.success && this.success(dateObj)
-        this.$emit("input", dateObj[0])
+      if (this.isMobile) return
+      if (this.isRange && !this.firstInfo) {
+        this.onMove()
       }
+      this.setVal(year)
+      // let sds = this.selectedDates
+      // if (this.type === PICKER_TYPE.YEAR_RANGE) {
+      //   if (sds.length >= 2) {
+      //     this.selectedDates = [year]
+      //   } else {
+      //     if (sds.length === 1 && year < sds[0]) {
+      //       this.selectedDates.unshift(year)
+      //     } else {
+      //       this.selectedDates.push(year)
+      //     }
+      //     this.success && this.selectedDates.length > 1 && this.success(this.str2Date(this.selectedDates))
+      //   }
+      // } else {
+      //   this.selectedDates = [year]
+      //   let dateObj = this.str2Date(this.selectedDates)
+      //   this.success && this.success(dateObj)
+      //   this.$emit("input", dateObj[0])
+      // }
+    },
+
+    getMomentDateInfo(year) {
+      return year
     }
   },
 
@@ -145,6 +154,9 @@ export default {
     },
     rangeSelectedAll() {
       return this.type === PICKER_TYPE.YEAR_RANGE && this.selectedDates.length === 2
+    },
+    isRange() {
+      return this.type === PICKER_TYPE.YEAR_RANGE
     }
   }
 }

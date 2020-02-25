@@ -79,13 +79,30 @@ export const EVENT_MIXINS = {
       let info = this.getMomentDateInfo(dateInfo)
       info && this.setSelectedDates(info)
     },
+    isBefore(info) {
+      if (this.isYear) {
+        return this.firstInfo - info > 0
+      } else {
+        let { mDate } = info
+        return mDate.isBefore(this.firstInfo.datestr)
+      }
+    },
     setSelectedDates(info) {
-      let { mDate } = info
-      this.$set(this, "selectedDates", mDate.isBefore(this.firstInfo.datestr) ? [info, this.firstInfo] : [this.firstInfo, info])
+      this.$set(this, "selectedDates", this.isBefore(info) ? [info, this.firstInfo] : [this.firstInfo, info])
     },
     successHandler() {
-      this.success && this.success(this.selectedDates)
+      let sds = this.selectedDates
+      if (this.isYear) {
+        sds = this.str2Date(this.selectedDates)
+      }
+      this.success && this.success(sds)
       this.selectedDates = []
+    },
+    getDateInfo(evt) {
+      let target = this.getTarget(evt)
+      if (!target) return
+      let { cindex } = this.getTarget(evt).dataset
+      return cindex
     },
     setVal(dayInfo) {
       let info = this.getMomentDateInfo(dayInfo)
@@ -108,7 +125,6 @@ export const EVENT_MIXINS = {
         this.$emit("input", dateObj[0])
       }
       this.curdate = info.date
-      this.setMonthInfo()
     }
   }
 }

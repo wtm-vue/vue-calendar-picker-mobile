@@ -121,6 +121,7 @@ export default {
         this.onMove()
       }
       this.setVal(dayInfo)
+      this.setMonthInfo()
     },
 
     getDateInfo(evt) {
