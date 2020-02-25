@@ -79,7 +79,7 @@ export default {
         let ref = this.$refs._calBase
         if (ref) {
           ref.$el.removeEventListener("animationend", this.aend)
-          ref.offMove && ref.offMove()
+          ref.isMobile ? ref.touchEnd() : ref.offMove()
         }
         document.body.style.overflow = null
         this.calUp = false

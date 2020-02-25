@@ -21,11 +21,22 @@ export const EVENT_MIXINS = {
   },
   mounted() {
     this.isMobile &&
+      this.isRange &&
       this.$nextTick(function() {
         this.initEvent()
       })
   },
   methods: {
+    isSelected(info) {
+      return this.selectedDates.some(item => item.datestr === this.getMomentDateInfo(info).datestr)
+    },
+    isInRange(dateInfo) {
+      if (this.rangeSelectedAll) {
+        let { mDate, datestr } = this.getMomentDateInfo(dateInfo)
+        return this.selectedDateStr.indexOf(datestr) > -1 || mDate.isBetween.apply(mDate, this.selectedDateStr)
+      }
+      return false
+    },
     initEvent() {
       if (this.contEl) {
         this.contEl.addEventListener("touchstart", this.touchStart, false)
@@ -39,7 +50,7 @@ export const EVENT_MIXINS = {
         let ft = evt.touches[0]
         if (!ft) return null
         let { pageX, pageY } = ft
-        target = document.elementFromPoint(pageX, pageY)
+        target = document.elementFromPoint(pageX - window.pageXOffset, pageY - window.pageYOffset)
       }
       if (!target) return null
       if (target.tagName !== "SPAN") {
@@ -52,10 +63,12 @@ export const EVENT_MIXINS = {
       this.setVal(this.getDateInfo(evt))
     },
     touchEnd(evt) {
-      let dateInfo = this.getDateInfo(evt)
-      let sds = this.selectedDates
-      if (!dateInfo && sds.length < 2) {
-        sds.push(sds[0])
+      if (evt) {
+        let dateInfo = this.getDateInfo(evt)
+        let sds = this.selectedDates
+        if (!dateInfo && sds.length < 2) {
+          sds.push(sds[0])
+        }
       }
 
       this.isMoving = false
@@ -120,9 +133,9 @@ export const EVENT_MIXINS = {
         }
       } else {
         this.selectedDates = [info]
-        this.successHandler()
         let dateObj = this.selectedDates.map(item => item.date)
         this.$emit("input", dateObj[0])
+        this.successHandler()
       }
       this.curdate = info.date
     }

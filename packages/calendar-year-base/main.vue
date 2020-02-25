@@ -11,7 +11,7 @@
       <div class="day-cont">
         <div class="vdm-flex">
           <div v-for="year in years" :key="year" class="ym" :class="{ cur: isCurYear(year), selected: isSelected(year) }">
-            <div :class="{ 'vdm-in-range': isInRange(year), 'vdm-range-start': isRangeStartEnd(year, 0), 'vdm-range-end': isRangeStartEnd(year, 1) }">
+            <div :class="{ 'vdm-in-range': isInRange(year), 'vdm-range-start': isRangeStartEnd(year, 0), 'vdm-range-end': isRangeStartEnd(year, 1), 'vdm-range-temp': isTempStatus(year) }">
               <span @click="setYear(year)" :data-cindex="year">{{ year }}</span>
             </div>
           </div>
@@ -104,6 +104,12 @@ export default {
       }
       return false
     },
+    isTempStatus(year) {
+      if (!this.firstInfo) return
+      const _this = this
+      let last = this.selectedDates.find(item => item - this.firstInfo)
+      return last && this.isMoving && !(year - last)
+    },
     isRangeStartEnd(year, index) {
       if (this.rangeSelectedAll) {
         let sd = this.selectedDates
@@ -118,8 +124,7 @@ export default {
       this.yearRange = range
     },
     setYear(year) {
-      if (this.isMobile) return
-      if (this.isRange && !this.firstInfo) {
+      if (!this.isMobile && this.isRange && !this.firstInfo) {
         this.onMove()
       }
       this.setVal(year)

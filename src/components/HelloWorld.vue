@@ -16,13 +16,14 @@
     月区间:<CalendarMonthRange v-model="input4"></CalendarMonthRange>
     {{ input4 }}
     <br />
-    年区间:<CalendarYearRange v-model="input6"></CalendarYearRange>
-    {{ input6 }}
     <CalendarYearBase v-model="base3"></CalendarYearBase>{{ base3 }}
-    <br />
     <br />
     年单选:<CalendarYear v-model="input5"></CalendarYear>
     {{ input5 }}
+    年区间:<CalendarYearRange v-model="input6"></CalendarYearRange>
+    {{ input6 }}
+
+    <br />
   </div>
 </template>
 

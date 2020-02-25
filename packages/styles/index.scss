@@ -33,6 +33,11 @@ html {
     border-top-right-radius: $day-height/2;
     border-bottom-right-radius: $day-height/2;
   }
+  &.vdm-range-temp {
+    span {
+      background-color: mix(#ffffff, $primary-color, 60%) !important;
+    }
+  }
 }
 .day {
   .vdm-range-start {

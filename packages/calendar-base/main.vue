@@ -12,7 +12,7 @@
       <div class="cont day-cont">
         <div v-for="(row, key) in monthInfo" :key="key" class="vdm-flex">
           <div v-for="(rd, rkey) in row" :key="rkey" class="day" :class="{ gray: rd.type, cur: isToday(rd), selected: isSelected(rd) }">
-            <div :class="{ 'vdm-in-range': isInRange(rd), 'vdm-range-start': isRangeStartEnd(rd, 0), 'vdm-range-end': isRangeStartEnd(rd, 1) }">
+            <div :class="{ 'vdm-in-range': isInRange(rd), 'vdm-range-start': isRangeStartEnd(rd, 0), 'vdm-range-end': isRangeStartEnd(rd, 1), 'vdm-range-temp': isTempStatus(rd) }">
               <span @click="selDate(rd)" :data-cindex="rkey" :data-rindex="key">{{ rd.day }}</span>
             </div>
           </div>
@@ -87,17 +87,7 @@ export default {
       let tstr = moment().format(this.format)
       return tstr === this.buildCurYMD(dayInfo).datestr
     },
-    isSelected(dayInfo) {
-      return this.selectedDates.some(item => item.datestr === this.buildCurYMD(dayInfo).datestr)
-    },
 
-    isInRange(dayInfo) {
-      if (this.rangeSelectedAll) {
-        let { mDate, datestr } = this.buildCurYMD(dayInfo)
-        return this.selectedDateStr.indexOf(datestr) > -1 || mDate.isBetween.apply(mDate, this.selectedDateStr)
-      }
-      return false
-    },
     isRangeStartEnd(dayInfo, index) {
       if (this.rangeSelectedAll) {
         let sd = this.selectedDateStr
@@ -107,7 +97,13 @@ export default {
       }
       return false
     },
-
+    isTempStatus(dayInfo) {
+      if (!this.firstInfo) return
+      const _this = this
+      let { mDate } = this.buildCurYMD(dayInfo)
+      let last = this.selectedDates.find(item => !item.mDate.isSame(this.firstInfo.datestr))
+      return last && this.isMoving && mDate.isSame(last.datestr)
+    },
     setMonthInfo() {
       this.monthInfo = getFullMonthInfo(this.curdate)
     },
@@ -116,8 +112,7 @@ export default {
       this.setMonthInfo()
     },
     selDate(dayInfo) {
-      if (this.isMobile) return
-      if (this.isRange && !this.firstInfo) {
+      if (!this.isMobile && this.isRange && !this.firstInfo) {
         this.onMove()
       }
       this.setVal(dayInfo)

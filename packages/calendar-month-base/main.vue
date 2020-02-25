@@ -11,7 +11,7 @@
       <div class="day-cont">
         <div class="vdm-flex">
           <div v-for="(m, index) in MONTHS" :key="index" class="ym" :class="{ cur: isThisMonth(index), selected: isSelected(index) }">
-            <div :class="{ 'vdm-in-range': isInRange(index), 'vdm-range-start': isRangeStartEnd(index, 0), 'vdm-range-end': isRangeStartEnd(index, 1) }">
+            <div :class="{ 'vdm-in-range': isInRange(index), 'vdm-range-start': isRangeStartEnd(index, 0), 'vdm-range-end': isRangeStartEnd(index, 1), 'vdm-range-temp': isTempStatus(index) }">
               <span @click="setMonth(index)" :data-cindex="index">{{ m }}</span>
             </div>
           </div>
@@ -82,16 +82,12 @@ export default {
       let tstr = moment().format(this.format)
       return tstr === this.buildCurYM(month).datestr
     },
-    isSelected(month) {
-      return this.selectedDates.some(item => item.datestr === this.buildCurYM(month).datestr)
-    },
-
-    isInRange(month) {
-      if (this.rangeSelectedAll) {
-        let { mDate, datestr } = this.buildCurYM(month)
-        return this.selectedDateStr.indexOf(datestr) > -1 || mDate.isBetween.apply(mDate, this.selectedDateStr)
-      }
-      return false
+    isTempStatus(dayInfo) {
+      if (!this.firstInfo) return
+      const _this = this
+      let { datestr } = this.buildCurYM(dayInfo)
+      let last = this.selectedDates.find(item => item.datestr !== this.firstInfo.datestr)
+      return last && this.isMoving && datestr === last.datestr
     },
     isRangeStartEnd(month, index) {
       if (this.rangeSelectedAll) {
@@ -106,8 +102,7 @@ export default {
       this.curdate = moment(this.curdate).add(num, type)
     },
     setMonth(month) {
-      if (this.isMobile) return
-      if (this.isRange && !this.firstInfo) {
+      if (!this.isMobile && this.isRange && !this.firstInfo) {
         this.onMove()
       }
       this.setVal(month)
