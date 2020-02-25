@@ -1,24 +1,19 @@
 <template>
   <div class="base-cal">
     <div class="vdm-flex cal-header">
-      <div><i class="iconfont icon-double-arrow-left- mr" @click="switchCal('year',-1)"></i> <i
-          class="iconfont icon-arrow-left-" @click="switchCal('month',-1)"></i></div>
-      <div>{{curStr}}</div>
-      <div>
-        <i class="iconfont icon-arrow-right- mr" @click="switchCal('month',1)"></i><i
-          class="iconfont icon-double-arrow-right-" @click="switchCal('year',1)"></i> </div>
+      <div><i class="iconfont icon-double-arrow-left- mr" @click="switchCal('year', -1)"></i> <i class="iconfont icon-arrow-left-" @click="switchCal('month', -1)"></i></div>
+      <div>{{ curStr }}</div>
+      <div><i class="iconfont icon-arrow-right- mr" @click="switchCal('month', 1)"></i><i class="iconfont icon-double-arrow-right-" @click="switchCal('year', 1)"></i></div>
     </div>
-    <div class="cal-cont-cont">
+    <div class="cal-cont-cont" ref="_dc">
       <div class="vdm-flex week-cont">
-        <div v-for="(w,key) in WEEKS" :key="key">{{w}}</div>
+        <div v-for="(w, key) in WEEKS" :key="key">{{ w }}</div>
       </div>
-      <div class="day-cont">
-        <div v-for="(row,key) in monthInfo" :key="key" class="vdm-flex">
-          <div v-for="(rd,key) in row" :key="key" class="day"
-            :class="{gray:rd.type,cur:isToday(rd),selected:isSelected(rd)}">
-            <div
-              :class="{'vdm-in-range':isInRange(rd),'vdm-range-start':isRangeStartEnd(rd,0),'vdm-range-end':isRangeStartEnd(rd,1)}">
-              <span @click="selDate(rd)">{{rd.day}}</span>
+      <div class="cont day-cont">
+        <div v-for="(row, key) in monthInfo" :key="key" class="vdm-flex">
+          <div v-for="(rd, rkey) in row" :key="rkey" class="day" :class="{ gray: rd.type, cur: isToday(rd), selected: isSelected(rd) }">
+            <div :class="{ 'vdm-in-range': isInRange(rd), 'vdm-range-start': isRangeStartEnd(rd, 0), 'vdm-range-end': isRangeStartEnd(rd, 1) }">
+              <span @click="selDate(rd)" :data-cindex="rkey" :data-rindex="key">{{ rd.day }}</span>
             </div>
           </div>
         </div>
@@ -26,13 +21,13 @@
     </div>
   </div>
 </template>
-
 <script type="text/babel">
 import { getFullMonthInfo, formatDate2Str } from "../utils/date"
-
 import { WEEKS, DATE_FORMAT, PICKER_TYPE } from "../utils/const"
 import moment from "moment"
+import { EVENT_MIXINS } from "../utils/mixins"
 export default {
+  mixins: [EVENT_MIXINS],
   name: "CalendarBase",
   props: {
     value: [Object, Date],
@@ -50,7 +45,6 @@ export default {
   data() {
     return {
       WEEKS,
-      selectedDates: [],
       monthInfo: [],
       curdate: new Date()
     }
@@ -100,10 +94,7 @@ export default {
     isInRange(dayInfo) {
       if (this.rangeSelectedAll) {
         let { mDate, datestr } = this.buildCurYMD(dayInfo)
-        return (
-          this.selectedDateStr.indexOf(datestr) > -1 ||
-          mDate.isBetween.apply(mDate, this.selectedDateStr)
-        )
+        return this.selectedDateStr.indexOf(datestr) > -1 || mDate.isBetween.apply(mDate, this.selectedDateStr)
       }
       return false
     },
@@ -125,28 +116,21 @@ export default {
       this.setMonthInfo()
     },
     selDate(dayInfo) {
-      let info = this.buildCurYMD(dayInfo)
-      let sds = this.selectedDates
-      if (this.type === PICKER_TYPE.DATE_RANGE) {
-        if (sds.length >= 2) {
-          this.selectedDates = [info]
-        } else {
-          let { mDate } = info
-          if (sds.length === 1 && mDate.isBefore(sds[0].datestr)) {
-            this.selectedDates.unshift(info)
-          } else {
-            this.selectedDates.push(info)
-          }
-          this.success && this.selectedDates.length > 1 && this.success(this.selectedDates)
-        }
-      } else {
-        this.selectedDates = [info]
-        this.success && this.success(this.selectedDates)
-        let dateObj = this.selectedDates.map(item => item.date)
-        this.$emit("input", dateObj[0])
+      if (this.isMobile) return
+      if (this.isRange && !this.firstInfo) {
+        this.onMove()
       }
-      this.curdate = info.date
-      this.setMonthInfo()
+      this.setVal(dayInfo)
+    },
+
+    getDateInfo(evt) {
+      let target = this.getTarget(evt)
+      if (!target) return
+      let { cindex, rindex } = this.getTarget(evt).dataset
+      return this.monthInfo[rindex][cindex]
+    },
+    getMomentDateInfo(info) {
+      return this.buildCurYMD(info)
     }
   },
 
@@ -155,13 +139,16 @@ export default {
       return moment(this.curdate).format(`${DATE_FORMAT.YYYY}年${DATE_FORMAT.MM}月`)
     },
     rangeSelectedAll() {
-      return this.type === PICKER_TYPE.DATE_RANGE && this.selectedDates.length === 2
+      return this.isRange && this.selectedDates.length === 2
     },
     dateRange() {
       return [PICKER_TYPE.DATE, PICKER_TYPE.DATE_RANGE].indexOf(this.type) > -1
     },
     selectedDateStr() {
       return this.selectedDates.map(item => item.datestr)
+    },
+    isRange() {
+      return this.type === PICKER_TYPE.DATE_RANGE
     }
   }
 }

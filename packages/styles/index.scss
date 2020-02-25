@@ -34,6 +34,18 @@ html {
     border-bottom-right-radius: $day-height/2;
   }
 }
+.day {
+  .vdm-range-start {
+    span {
+      transform: translateX(-50%);
+    }
+  }
+  .vdm-range-end {
+    span {
+      transform: translateX(50%);
+    }
+  }
+}
 
 .base-cal {
   user-select: none;

@@ -6,7 +6,7 @@
 
 <script type="text/babel">
 import VDMInput from "../input/main.vue"
-import { BASE } from "../utils/mixins"
+import { BASE } from "../utils/mixins-base"
 import { DATE_FORMAT, PICKER_TYPE } from "../utils/const"
 export default {
   name: "CalendarYear",

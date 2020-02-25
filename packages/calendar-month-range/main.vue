@@ -1,14 +1,13 @@
-
 <template>
   <CalBase @confirm="confirmHandler" ref="_calBase" :type="type" v-bind="$attrs" :userInput="userInput">
     <VDMInput v-bind="$attrs" :value="getDispalyValue(0)" :placeholder="startPlaceholder" @click="handleClick" />
-    <span class="separator">{{rangeSeparator}}</span>
+    <span class="separator">{{ rangeSeparator }}</span>
     <VDMInput v-bind="$attrs" :value="getDispalyValue(1)" :placeholder="endPlaceholder" @click="handleClick" />
   </CalBase>
 </template>
 <script type="text/babel">
 import VDMInput from "../input/main.vue"
-import { BASE } from "../utils/mixins"
+import { BASE } from "../utils/mixins-base"
 
 import { PICKER_TYPE, DATE_FORMAT } from "../utils/const"
 export default {
@@ -53,5 +52,3 @@ export default {
   vertical-align: middle;
 }
 </style>
-
-

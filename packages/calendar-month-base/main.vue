@@ -1,19 +1,18 @@
 <template>
   <div class="base-cal ymr-cont">
     <div class="vdm-flex cal-header">
-      <div><i class="iconfont icon-double-arrow-left- mr" @click="switchCal('year',-1)"></i></div>
-      <div>{{curStr}}</div>
+      <div><i class="iconfont icon-double-arrow-left- mr" @click="switchCal('year', -1)"></i></div>
+      <div>{{ curStr }}</div>
       <div>
-        <i class="iconfont icon-double-arrow-right-" @click="switchCal('year',1)"></i> </div>
+        <i class="iconfont icon-double-arrow-right-" @click="switchCal('year', 1)"></i>
+      </div>
     </div>
-    <div class="cal-cont-cont">
+    <div class="cal-cont-cont" ref="_dc">
       <div class="day-cont">
         <div class="vdm-flex">
-          <div v-for="(m,index) in MONTHS" :key="index" class="ym"
-            :class="{cur:isThisMonth(index),selected:isSelected(index)}">
-            <div
-              :class="{'vdm-in-range':isInRange(index),'vdm-range-start':isRangeStartEnd(index,0),'vdm-range-end':isRangeStartEnd(index,1)}">
-              <span @click="setMonth(index)">{{m}}</span>
+          <div v-for="(m, index) in MONTHS" :key="index" class="ym" :class="{ cur: isThisMonth(index), selected: isSelected(index) }">
+            <div :class="{ 'vdm-in-range': isInRange(index), 'vdm-range-start': isRangeStartEnd(index, 0), 'vdm-range-end': isRangeStartEnd(index, 1) }">
+              <span @click="setMonth(index)">{{ m }}</span>
             </div>
           </div>
         </div>
@@ -26,8 +25,9 @@
 import { formatDate2Str } from "../utils/date"
 import { DATE_FORMAT, PICKER_TYPE, MONTHS } from "../utils/const"
 import moment from "moment"
-
+import { EVENT_MIXINS } from "../utils/mixins"
 export default {
+  mixins: [EVENT_MIXINS],
   name: "CalendarMonthBase",
   props: {
     value: [Object, Date],
@@ -46,7 +46,6 @@ export default {
   data() {
     return {
       MONTHS,
-      selectedDates: [],
       curdate: new Date()
     }
   },
@@ -90,10 +89,7 @@ export default {
     isInRange(month) {
       if (this.rangeSelectedAll) {
         let { mDate, datestr } = this.buildCurYM(month)
-        return (
-          this.selectedDateStr.indexOf(datestr) > -1 ||
-          mDate.isBetween.apply(mDate, this.selectedDateStr)
-        )
+        return this.selectedDateStr.indexOf(datestr) > -1 || mDate.isBetween.apply(mDate, this.selectedDateStr)
       }
       return false
     },

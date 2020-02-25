@@ -1,8 +1,7 @@
 <template>
   <div class="cal-warp">
     <slot></slot>
-    <ToggleCalendar ref="_toggleCalendar" v-bind="$attrs" v-on="$listeners">
-    </ToggleCalendar>
+    <ToggleCalendar ref="_toggleCalendar" v-bind="$attrs" v-on="$listeners"> </ToggleCalendar>
   </div>
 </template>
 

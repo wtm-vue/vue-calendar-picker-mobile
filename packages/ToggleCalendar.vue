@@ -1,14 +1,17 @@
 <template>
   <div v-if="calShow">
-    <div class="mask" @click.prevent="hide" :class="{
-        'mask-fade-in':calUp,'mask-fade-out':calDown
-      }" :style="{zIndex:zIndex}"></div>
-    <CalendarBase :type="type" v-if="[PICKER_TYPE.DATE,PICKER_TYPE.DATE_RANGE].indexOf(type)>-1" v-bind="mattrs">
-    </CalendarBase>
-    <CalendarMonthBase :type="type" v-if="[PICKER_TYPE.MONTH,PICKER_TYPE.MONTH_RANGE].indexOf(type)>-1" v-bind="mattrs">
-    </CalendarMonthBase>
-    <CalendarYearBase :type="type" v-if="[PICKER_TYPE.YEAR,PICKER_TYPE.YEAR_RANGE].indexOf(type)>-1" v-bind="mattrs">
-    </CalendarYearBase>
+    <div
+      class="mask"
+      @click.prevent="hide"
+      :class="{
+        'mask-fade-in': calUp,
+        'mask-fade-out': calDown
+      }"
+      :style="{ zIndex: zIndex }"
+    ></div>
+    <CalendarBase :type="type" v-if="[PICKER_TYPE.DATE, PICKER_TYPE.DATE_RANGE].indexOf(type) > -1" v-bind="mattrs"> </CalendarBase>
+    <CalendarMonthBase :type="type" v-if="[PICKER_TYPE.MONTH, PICKER_TYPE.MONTH_RANGE].indexOf(type) > -1" v-bind="mattrs"> </CalendarMonthBase>
+    <CalendarYearBase :type="type" v-if="[PICKER_TYPE.YEAR, PICKER_TYPE.YEAR_RANGE].indexOf(type) > -1" v-bind="mattrs"> </CalendarYearBase>
   </div>
 </template>
 
@@ -57,7 +60,10 @@ export default {
 
   methods: {
     confirmSel(vals) {
-      this.$emit("confirm", vals.map(item => item.date))
+      this.$emit(
+        "confirm",
+        vals.map(item => item.date)
+      )
     },
     show() {
       document.body.appendChild(this.$el)
@@ -70,8 +76,11 @@ export default {
     },
     aend() {
       if (this.calDown) {
-        this.$refs._calBase &&
-          this.$refs._calBase.$el.removeEventListener("animationend", this.aend)
+        let ref = this.$refs._calBase
+        if (ref) {
+          ref.$el.removeEventListener("animationend", this.aend)
+          ref.offMove && ref.offMove()
+        }
         document.body.style.overflow = null
         this.calUp = false
         this.calDown = false
