@@ -22,13 +22,13 @@
   </div>
 </template>
 <script type="text/babel">
-import { getFullMonthInfo, formatDate2Str } from "../utils/date"
-import { WEEKS, DATE_FORMAT, PICKER_TYPE } from "../utils/const"
-import moment from "moment"
-import { EVENT_MIXINS } from "../utils/mixins"
+import { getFullMonthInfo, formatDate2Str } from '../utils/date';
+import { WEEKS, DATE_FORMAT, PICKER_TYPE } from '../utils/const';
+import moment from 'moment';
+import { EVENT_MIXINS } from '../utils/mixins';
 export default {
   mixins: [EVENT_MIXINS],
-  name: "CalendarBase",
+  name: 'CalendarBase',
   props: {
     value: [Object, Date],
     userInput: Array,
@@ -47,110 +47,109 @@ export default {
       WEEKS,
       monthInfo: [],
       curdate: new Date()
-    }
+    };
   },
   watch: {
     userInput: {
       handler: function(val) {
-        if (!val || !val.length) return
-        let arr = []
+        if (!val || !val.length) return;
+        let arr = [];
         if (!Array.isArray(val)) {
-          val = [val]
+          val = [val];
         }
         val.map(item => {
           arr.push({
             datestr: formatDate2Str(item, this.format),
             date: item,
             mDate: moment(item)
-          })
-        })
-        this.selectedDates = arr
-        this.curdate = arr[0].date
+          });
+        });
+        this.selectedDates = arr;
+        this.curdate = arr[0].date;
       },
       immediate: true
     }
   },
   mounted() {
-    this.setMonthInfo()
+    this.setMonthInfo();
   },
   methods: {
     buildCurYMD(dayInfo) {
-      let { day, type } = dayInfo
-      String(day).length === 1 && (day = "0" + day)
-      let selDate = moment(this.curdate).add(type, "month")
-      let cstr = selDate.format([DATE_FORMAT.YYYY, DATE_FORMAT.MM].join("-"))
-      let datestr = [cstr, day].join("-")
-      let mDate = moment(datestr)
-      return { datestr, date: mDate._d, mDate }
+      let { day, type } = dayInfo;
+      String(day).length === 1 && (day = '0' + day);
+      let selDate = moment(this.curdate).add(type, 'month');
+      let cstr = selDate.format([DATE_FORMAT.YYYY, DATE_FORMAT.MM].join('-'));
+      let datestr = [cstr, day].join('-');
+      let mDate = moment(datestr);
+      return { datestr, date: mDate._d, mDate };
     },
     isToday(dayInfo) {
-      let tstr = moment().format(this.format)
-      return tstr === this.buildCurYMD(dayInfo).datestr
+      let tstr = moment().format(this.format);
+      return tstr === this.buildCurYMD(dayInfo).datestr;
     },
 
     isRangeStartEnd(dayInfo, index) {
       if (this.rangeSelectedAll) {
-        let sd = this.selectedDateStr
-        if (moment(sd[0]).isSame(sd[1])) return false
-        let { mDate } = this.buildCurYMD(dayInfo)
-        return mDate.isSame(sd[index])
+        let sd = this.selectedDateStr;
+        if (moment(sd[0]).isSame(sd[1])) return false;
+        let { mDate } = this.buildCurYMD(dayInfo);
+        return mDate.isSame(sd[index]);
       }
-      return false
+      return false;
     },
     isTempStatus(dayInfo) {
-      if (!this.firstInfo) return
-      const _this = this
-      let { mDate } = this.buildCurYMD(dayInfo)
-      let last = this.selectedDates.find(item => !item.mDate.isSame(this.firstInfo.datestr))
-      return last && this.isMoving && mDate.isSame(last.datestr)
+      if (!this.firstInfo) return;
+      let { mDate } = this.buildCurYMD(dayInfo);
+      let last = this.selectedDates.find(item => !item.mDate.isSame(this.firstInfo.datestr));
+      return last && this.isMoving && mDate.isSame(last.datestr);
     },
     setMonthInfo() {
-      this.monthInfo = getFullMonthInfo(this.curdate)
+      this.monthInfo = getFullMonthInfo(this.curdate);
     },
     switchCal(type, num) {
-      this.curdate = moment(this.curdate).add(num, type)
-      this.setMonthInfo()
+      this.curdate = moment(this.curdate).add(num, type);
+      this.setMonthInfo();
     },
     selDate(dayInfo) {
       if (!this.isMobile && this.isRange && !this.firstInfo) {
-        this.onMove()
+        this.onMove();
       }
-      this.setVal(dayInfo)
-      this.setMonthInfo()
+      this.setVal(dayInfo);
+      this.setMonthInfo();
     },
 
     getDateInfo(evt) {
-      let target = this.getTarget(evt)
-      if (!target) return
-      let { cindex, rindex } = this.getTarget(evt).dataset
-      return this.monthInfo[rindex][cindex]
+      let target = this.getTarget(evt);
+      if (!target) return;
+      let { cindex, rindex } = this.getTarget(evt).dataset;
+      return this.monthInfo[rindex][cindex];
     },
     getMomentDateInfo(info) {
-      return this.buildCurYMD(info)
+      return this.buildCurYMD(info);
     }
   },
 
   computed: {
     curStr() {
-      return moment(this.curdate).format(`${DATE_FORMAT.YYYY}年${DATE_FORMAT.MM}月`)
+      return moment(this.curdate).format(`${DATE_FORMAT.YYYY}年${DATE_FORMAT.MM}月`);
     },
     rangeSelectedAll() {
-      return this.isRange && this.selectedDates.length === 2
+      return this.isRange && this.selectedDates.length === 2;
     },
     dateRange() {
-      return [PICKER_TYPE.DATE, PICKER_TYPE.DATE_RANGE].indexOf(this.type) > -1
+      return [PICKER_TYPE.DATE, PICKER_TYPE.DATE_RANGE].indexOf(this.type) > -1;
     },
     selectedDateStr() {
-      return this.selectedDates.map(item => item.datestr)
+      return this.selectedDates.map(item => item.datestr);
     },
     isRange() {
-      return this.type === PICKER_TYPE.DATE_RANGE
+      return this.type === PICKER_TYPE.DATE_RANGE;
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-@import "../styles/varibles.scss";
+@import '../styles/varibles.scss';
 .base-cal {
   .week-cont,
   .day-cont {

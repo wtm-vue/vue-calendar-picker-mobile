@@ -22,13 +22,13 @@
 </template>
 
 <script type="text/babel">
-import { formatDate2Str } from "../utils/date"
-import { DATE_FORMAT, PICKER_TYPE } from "../utils/const"
-import moment from "moment"
-import { EVENT_MIXINS } from "../utils/mixins"
+import { formatDate2Str } from '../utils/date';
+import { DATE_FORMAT, PICKER_TYPE } from '../utils/const';
+import moment from 'moment';
+import { EVENT_MIXINS } from '../utils/mixins';
 export default {
   mixins: [EVENT_MIXINS],
-  name: "CalendarYearBase",
+  name: 'CalendarYearBase',
   props: {
     value: [Object, Date],
     userInput: Array,
@@ -49,21 +49,21 @@ export default {
       years: [],
       yearRange: [],
       selectedDates: []
-    }
+    };
   },
   watch: {
     userInput: {
       handler: function(val) {
         if (!val || !val.length) {
-          this.init()
-          return
+          this.init();
+          return;
         }
         if (!Array.isArray(val)) {
-          val = [val]
+          val = [val];
         }
-        let range = val.map(item => formatDate2Str(item, this.format) - 0)
-        this.selectedDates = range
-        this.init(new Date(range[0] + ""))
+        let range = val.map(item => formatDate2Str(item, this.format) - 0);
+        this.selectedDates = range;
+        this.init(new Date(range[0] + ''));
       },
       immediate: true
     }
@@ -71,63 +71,62 @@ export default {
   mounted() {},
   methods: {
     getYearArray(startYear, endYear) {
-      return Array.from(new Array(endYear + 1).keys()).slice(startYear)
+      return Array.from(new Array(endYear + 1).keys()).slice(startYear);
     },
     init(date = new Date()) {
-      let cy = moment(date).format(this.format)
-      let temp = cy.slice(0, 3)
-      let sy = temp + 0 - 0
-      let ey = temp + 9 - 0
-      this.yearRange = [sy, ey]
-      this.years = this.getYearArray(sy, ey)
+      let cy = moment(date).format(this.format);
+      let temp = cy.slice(0, 3);
+      let sy = temp + 0 - 0;
+      let ey = temp + 9 - 0;
+      this.yearRange = [sy, ey];
+      this.years = this.getYearArray(sy, ey);
     },
     str2Date(str) {
       if (!Array.isArray(str)) {
-        str = [str]
+        str = [str];
       }
       return str.map(item => {
-        return { date: new Date(item + "") }
-      })
+        return { date: new Date(item + '') };
+      });
     },
     isCurYear(year) {
-      let tstr = moment().format(this.format)
-      return !(tstr - year)
+      let tstr = moment().format(this.format);
+      return !(tstr - year);
     },
     isSelected(year) {
-      return this.selectedDates.some(item => item - year === 0)
+      return this.selectedDates.some(item => item - year === 0);
     },
 
     isInRange(year) {
       if (this.rangeSelectedAll) {
-        let sd = this.selectedDates
-        return year >= sd[0] && year <= sd[1]
+        let sd = this.selectedDates;
+        return year >= sd[0] && year <= sd[1];
       }
-      return false
+      return false;
     },
     isTempStatus(year) {
-      if (!this.firstInfo) return
-      const _this = this
-      let last = this.selectedDates.find(item => item - this.firstInfo)
-      return last && this.isMoving && !(year - last)
+      if (!this.firstInfo) return;
+      let last = this.selectedDates.find(item => item - this.firstInfo);
+      return last && this.isMoving && !(year - last);
     },
     isRangeStartEnd(year, index) {
       if (this.rangeSelectedAll) {
-        let sd = this.selectedDates
-        if (sd[0] - sd[1] === 0) return false
-        return !(year - sd[index])
+        let sd = this.selectedDates;
+        if (sd[0] - sd[1] === 0) return false;
+        return !(year - sd[index]);
       }
-      return false
+      return false;
     },
     switchCal(num) {
-      let range = this.yearRange.map(item => item + num * 10)
-      this.years = this.getYearArray(range[0], range[1])
-      this.yearRange = range
+      let range = this.yearRange.map(item => item + num * 10);
+      this.years = this.getYearArray(range[0], range[1]);
+      this.yearRange = range;
     },
     setYear(year) {
       if (!this.isMobile && this.isRange && !this.firstInfo) {
-        this.onMove()
+        this.onMove();
       }
-      this.setVal(year)
+      this.setVal(year);
       // let sds = this.selectedDates
       // if (this.type === PICKER_TYPE.YEAR_RANGE) {
       //   if (sds.length >= 2) {
@@ -149,23 +148,23 @@ export default {
     },
 
     getMomentDateInfo(year) {
-      return year
+      return year;
     }
   },
 
   computed: {
     curYearRangeStr() {
-      return this.yearRange.map(item => `${item}年`).join("-")
+      return this.yearRange.map(item => `${item}年`).join('-');
     },
     rangeSelectedAll() {
-      return this.type === PICKER_TYPE.YEAR_RANGE && this.selectedDates.length === 2
+      return this.type === PICKER_TYPE.YEAR_RANGE && this.selectedDates.length === 2;
     },
     isRange() {
-      return this.type === PICKER_TYPE.YEAR_RANGE
+      return this.type === PICKER_TYPE.YEAR_RANGE;
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-@import "../styles/varibles.scss";
+@import '../styles/varibles.scss';
 </style>
